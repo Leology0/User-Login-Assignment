@@ -9,7 +9,20 @@ let signUpBtn = document.getElementById('sign-up-btn');
 signUpBtn.addEventListener('click', signUpHandler);
 
 function signUpHandler() {
-  console.log('Sign Up Btn Clicked');
+  let username = document.getElementById("username-input").value;
+  let password = document.getElementById("password-input").value;
+  // Check if username is already in use
+  if (checkUsername() == -1) {
+    return alert("Username is already in use");
+  }
+  // Push username and password into users array if passwords match
+  if (checkPasswords() == -1) {
+  users.push(newUser(username, password));
+  saveUsers();
+  alert("New user created");
+  } else {
+    alert ("Passwords do not match")
+  }
 }
 
 // SIGN IN BTN CLICKED
@@ -21,17 +34,29 @@ function signInHandler() {
 
 
 // Create new user
-function newUser(nameInput, passwordInput) {
+function newUser(username, password) {
   return {
-    name: nameInput,
-    password: passwordInput
+    name: username,
+    pass: password
+  }
+}
+// Check username
+function checkUsername() {
+  let username = document.getElementById("username-input").value;
+  for (let i = 0; i < users.length; i++) {
+    if (username == users[i].name) {
+      return -1
+    }
   }
 }
 
-function checkUser (name) {
+// Check if password matches confirmed password
+function checkPasswords() {
+  let password = document.getElementById("password-input").value;
+  let confirmPassword = document.getElementById("confirm-password-input").value;
   for(let i = 0; i < users.length; i++) {
-    if (name === users.name[i]) {
-      return index = -1
+    if (password == confirmPassword) {
+      return -1
     }
   }
 }
