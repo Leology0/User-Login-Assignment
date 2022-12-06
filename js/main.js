@@ -9,18 +9,8 @@ let signUpBtn = document.getElementById('sign-up-btn');
 signUpBtn.addEventListener('click', signUpHandler);
 
 function signUpHandler() {
-  let nameInput = document.getElementById("username-Input").value;
-  let passwordInput = document.getElementById("password-Input").value;
-  let confirmPassword = document.getElementById("confirmPassword").value;
-  // check if user already exists and if password = confirm password
-  
-  // push user into the array
-  users.push(newUser(nameInput, passwordInput));
-  saveUsers();
-  alert("New user created");
-
+  console.log('Sign Up Btn Clicked');
 }
-
 
 // SIGN IN BTN CLICKED
 signInBtn.addEventListener('click', signInHandler);
