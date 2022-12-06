@@ -9,8 +9,10 @@ let signUpBtn = document.getElementById('sign-up-btn');
 signUpBtn.addEventListener('click', signUpHandler);
 
 function signUpHandler() {
-  let username = document.getElementById("username-input").value;
-  let password = document.getElementById("password-input").value;
+  // Check fields and if empty alert user
+  if (checkFields() == -1) {
+    return alert("Fill out all fields")
+  }
   // Check if username is already in use
   if (checkUsername() == -1) {
     return alert("Username is already in use");
@@ -29,10 +31,12 @@ function signUpHandler() {
 signInBtn.addEventListener('click', signInHandler);
 
 function signInHandler() {
-  console.log('Sign In Btn Clicked');
+  if (checkFields() == -1) {
+    return alert("Fill out all fields")
+  }
 }
 
-
+// Helper Functions
 // Create new user
 function newUser(username, password) {
   return {
@@ -40,6 +44,23 @@ function newUser(username, password) {
     pass: password
   }
 }
+// Check if fields are empty
+function checkFields() {
+  let username = document.getElementById("username-input").value;
+  let password = document.getElementById("password-input").value;
+  let confirmPassword = document.getElementById("confirm-password-input").value;
+  for(let i = 0; i < users.length; i++) {
+    if (username == "") {
+      return -1
+    } else if (password == "") {
+      return -1
+    } else if (confirmPassword == "") {
+      return -1
+    }
+  }
+}
+
+
 // Check username
 function checkUsername() {
   let username = document.getElementById("username-input").value;
@@ -56,6 +77,16 @@ function checkPasswords() {
   let confirmPassword = document.getElementById("confirm-password-input").value;
   for(let i = 0; i < users.length; i++) {
     if (password == confirmPassword) {
+      return -1
+    }
+  }
+}
+
+// Check when logging in if password matches users array password
+function loginPassword() {
+  let password = document.getElementById("password-input").value;
+  for(let i = 0; i < users.length; i++) {
+    if (password == users[i].pass) {
       return -1
     }
   }
