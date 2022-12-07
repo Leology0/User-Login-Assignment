@@ -31,8 +31,12 @@ function signUpHandler() {
 signInBtn.addEventListener('click', signInHandler);
 
 function signInHandler() {
-  if (checkFields() == -1) {
+  if (checkFieldsLogin() == -1) {
     return alert("Fill out all fields")
+  } if (loginUsername == -1 && loginPassword == -1) {
+    return alert ("Login succesful")
+  } else {
+    return alert("Invalid login information")
   }
 }
 
@@ -60,6 +64,17 @@ function checkFields() {
   }
 }
 
+function checkFieldsLogin() {
+  let username = document.getElementById("login-username").value;
+  let password = document.getElementById("login-password").value;
+  for(let i = 0; i < users.length; i++) {
+    if (username == "") {
+      return -1
+    } else if (password == "") {
+      return -1
+    }
+  }
+}
 
 // Check username
 function checkUsername() {
@@ -84,9 +99,19 @@ function checkPasswords() {
 
 // Check when logging in if password matches users array password
 function loginPassword() {
-  let password = document.getElementById("password-input").value;
+  let password = document.getElementById("login-password").value;
+
   for(let i = 0; i < users.length; i++) {
-    if (password == users[i].pass) {
+    if (password == pass) {
+      return -1
+    }
+  }
+  }
+
+function loginUsername() {
+  let username = document.getElementById("login-username").value;
+  for (let i = 0; i < users.length; i++) {
+    if (username == users[i].name) {
       return -1
     }
   }
