@@ -10,15 +10,15 @@ signUpBtn.addEventListener('click', signUpHandler);
 
 function signUpHandler() {
   // Check fields and if empty alert user
-  if (checkFields() == -1) {
+  if (checkFields() === -1) {
     return alert("Fill out all fields")
   }
   // Check if username is already in use
-  if (checkUsername() == -1) {
+  if (checkUsername() !== -1) {
     return alert("Username is already in use");
   }
   // Push username and password into users array if passwords match
-  if (checkPasswords() == -1) {
+  if (checkPasswords() !== -1) {
   users.push(newUser(username, password));
   saveUsers();
   alert("New user created");
@@ -31,13 +31,8 @@ function signUpHandler() {
 signInBtn.addEventListener('click', signInHandler);
 
 function signInHandler() {
-  if (checkFieldsLogin() == -1) {
-    return alert("Fill out all fields")
-  } if (loginUsername == -1 && loginPassword == -1) {
-    return alert ("Login succesful")
-  } else {
-    return alert("Invalid login information")
-  }
+  loadUsers(); 
+  checkUser()
 }
 
 // Helper Functions
@@ -54,23 +49,11 @@ function checkFields() {
   let password = document.getElementById("password-input").value;
   let confirmPassword = document.getElementById("confirm-password-input").value;
   for(let i = 0; i < users.length; i++) {
-    if (username == "") {
+    if (username === "") {
       return -1
-    } else if (password == "") {
+    } else if (password === "") {
       return -1
-    } else if (confirmPassword == "") {
-      return -1
-    }
-  }
-}
-
-function checkFieldsLogin() {
-  let username = document.getElementById("login-username").value;
-  let password = document.getElementById("login-password").value;
-  for(let i = 0; i < users.length; i++) {
-    if (username == "") {
-      return -1
-    } else if (password == "") {
+    } else if (confirmPassword === "") {
       return -1
     }
   }
@@ -80,7 +63,7 @@ function checkFieldsLogin() {
 function checkUsername() {
   let username = document.getElementById("username-input").value;
   for (let i = 0; i < users.length; i++) {
-    if (username == users[i].name) {
+    if (username !== users[i].name) {
       return -1
     }
   }
@@ -91,32 +74,36 @@ function checkPasswords() {
   let password = document.getElementById("password-input").value;
   let confirmPassword = document.getElementById("confirm-password-input").value;
   for(let i = 0; i < users.length; i++) {
-    if (password == confirmPassword) {
+    if (password !== confirmPassword) {
       return -1
     }
   }
 }
 
-// Check when logging in if password matches users array password
-function loginPassword() {
-  let password = document.getElementById("login-password").value;
+function checkUser(){
+  let usernameLogin = document.getElementById("login-username").value;
+  let index = indexOfUser(usernameLogin);
+  if (index !== -1) {
+    let passwordLogin = document.getElementById("login-password").value;
+    if (users[index].pass === passwordLogin) {
+      return alert("Login Successful")
+    } else {
+      return alert("Invalid Password")
+    }
+  } else {
+    return alert("Invalid Username")
+  }
+}
 
+function indexOfUser(username) {
   for(let i = 0; i < users.length; i++) {
-    if (password == pass) {
-      return -1
-    }
-  }
-  }
-
-function loginUsername() {
-  let username = document.getElementById("login-username").value;
-  for (let i = 0; i < users.length; i++) {
-    if (username == users[i].name) {
+    if (username === users[i].name) {
+      return i
+    } else {
       return -1
     }
   }
 }
-
 // Save Global users to Local Storage
 function saveUsers() {
   localStorage.setItem("users", JSON.stringify(users));
@@ -128,3 +115,17 @@ function loadUsers() {
   return JSON.parse(userstr) ?? [];
 }
 
+
+
+
+// let username = value of input element
+// let index = indexOfUser(username);
+// if (index !== -1) {
+//   let pwd = value of pwd element
+//   if (users[index].password === pwd) {
+//     login successful
+//   } else {
+//     invalid password
+//   } else {
+//   invalid username
+//  }
