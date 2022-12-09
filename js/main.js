@@ -10,21 +10,8 @@ signUpBtn.addEventListener('click', signUpHandler);
 
 function signUpHandler() {
   // Check fields and if empty alert user
-  if (checkFields() === -1) {
-    return alert("Fill out all fields")
-  }
-  // Check if username is already in use
-  if (checkUsername() !== -1) {
-    return alert("Username is already in use");
-  }
-  // Push username and password into users array if passwords match
-  if (checkPasswords() !== -1) {
-  users.push(newUser(username, password));
-  saveUsers();
-  alert("New user created");
-  } else {
-    alert ("Passwords do not match")
-  }
+  loadUsers();
+  checkUserSignup();
 }
 
 // SIGN IN BTN CLICKED
@@ -32,7 +19,7 @@ signInBtn.addEventListener('click', signInHandler);
 
 function signInHandler() {
   loadUsers(); 
-  checkUser()
+  checkUserLogin()
 }
 
 // Helper Functions
@@ -43,48 +30,40 @@ function newUser(username, password) {
     pass: password
   }
 }
-// Check if fields are empty
-function checkFields() {
+
+function checkUserSignup() {
   let username = document.getElementById("username-input").value;
   let password = document.getElementById("password-input").value;
   let confirmPassword = document.getElementById("confirm-password-input").value;
-  for(let i = 0; i < users.length; i++) {
-    if (username === "") {
-      return -1
-    } else if (password === "") {
-      return -1
-    } else if (confirmPassword === "") {
-      return -1
+  let index = indexOfUser(username);
+  if (username === "") {
+    return alert("Please fill out all fields")
+  } else if (password === "") {
+    return alert("Please fill out all fields")
+  } else if (confirmPassword === "") {
+    return alert("Please fill out all fields")
+  }
+  if (index !== -1 ) {
+    if (users[index].name === username) {
+      return alert("Username is already in use")
     }
+  } else if (password !== confirmPassword) {
+    return alert("Passwords do not match")
   }
 }
 
-// Check username
-function checkUsername() {
-  let username = document.getElementById("username-input").value;
-  for (let i = 0; i < users.length; i++) {
-    if (username !== users[i].name) {
-      return -1
-    }
-  }
-}
 
-// Check if password matches confirmed password
-function checkPasswords() {
-  let password = document.getElementById("password-input").value;
-  let confirmPassword = document.getElementById("confirm-password-input").value;
-  for(let i = 0; i < users.length; i++) {
-    if (password !== confirmPassword) {
-      return -1
-    }
-  }
-}
 
-function checkUser(){
+function checkUserLogin(){
   let usernameLogin = document.getElementById("login-username").value;
+  let passwordLogin = document.getElementById("login-password").value;
   let index = indexOfUser(usernameLogin);
+  if (usernameLogin == "") {
+    return alert("Please fill out all fields")
+  } else if (passwordLogin === "") {
+    return alert("Please fill out all fields")
+  }
   if (index !== -1) {
-    let passwordLogin = document.getElementById("login-password").value;
     if (users[index].pass === passwordLogin) {
       return alert("Login Successful")
     } else {
@@ -95,9 +74,9 @@ function checkUser(){
   }
 }
 
-function indexOfUser(username) {
+function indexOfUser(input) {
   for(let i = 0; i < users.length; i++) {
-    if (username === users[i].name) {
+    if (input === users[i].name) {
       return i
     } else {
       return -1
