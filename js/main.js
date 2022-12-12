@@ -32,23 +32,31 @@ function newUser(username, password) {
 }
 
 function checkUserSignup() {
-  let username = document.getElementById("username-input").value;
-  let password = document.getElementById("password-input").value;
-  let confirmPassword = document.getElementById("confirm-password-input").value;
-  let index = indexOfUser(username);
-  if (username === "") {
+  // Get Inputs
+  let usernameSignup = document.getElementById("username-input").value;
+  let passwordSignup = document.getElementById("password-input").value;
+  let confirmPasswordSignup = document.getElementById("confirm-password-input").value;
+  
+  // Validate Inputs
+  if (usernameSignup === "" || passwordSignup === "" || confirmPasswordSignup === "") {
     return alert("Please fill out all fields")
-  } else if (password === "") {
-    return alert("Please fill out all fields")
-  } else if (confirmPassword === "") {
-    return alert("Please fill out all fields")
-  }
+  }  
+
+  // Check Username Already Used
+  let index = indexOfUser(usernameSignup);
   if (index !== -1 ) {
-    if (users[index].name === username) {
-      return alert("Username is already in use")
-    }
-  } else if (password !== confirmPassword) {
+    return alert("Username is already in use")
+  } 
+  
+  // Check Confirm Password
+  if (passwordSignup !== confirmPasswordSignup) {
     return alert("Passwords do not match")
+  } 
+  // Push user into array and alert the user
+  else {
+    alert("New user created");
+    users.push(newUser(usernameSignup, passwordSignup));
+    saveUsers();
   }
 }
 
@@ -74,14 +82,13 @@ function checkUserLogin(){
   }
 }
 
-function indexOfUser(input) {
+function indexOfUser(username) {
   for(let i = 0; i < users.length; i++) {
-    if (input === users[i].name) {
+    if (username === users[i].name) {
       return i
-    } else {
-      return -1
-    }
+    } 
   }
+  return -1
 }
 // Save Global users to Local Storage
 function saveUsers() {
