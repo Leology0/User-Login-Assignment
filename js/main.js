@@ -100,18 +100,3 @@ function loadUsers() {
   let userstr = localStorage.getItem('users');
   return JSON.parse(userstr) ?? [];
 }
-
-
-
-
-// let username = value of input element
-// let index = indexOfUser(username);
-// if (index !== -1) {
-//   let pwd = value of pwd element
-//   if (users[index].password === pwd) {
-//     login successful
-//   } else {
-//     invalid password
-//   } else {
-//   invalid username
-//  }
